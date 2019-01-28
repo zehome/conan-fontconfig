@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.org/conan-community/conan-fontconfig.svg)](https://travis-ci.org/conan-community/conan-fontconfig)
+[![Build Status](https://travis-ci.org/zehome/conan-fontconfig.svg)](https://travis-ci.org/zehome/conan-fontconfig)
 
 
 # conan-fontconfig
 
 
-[Conan](https://bintray.com/conan-community/conan/fontconfig%3Aconan) package for fontconfig 
+[Conan](https://bintray.com/zehome/conan-packages) package for fontconfig 
 library.
 
 
 ## Basic setup
 
-    $ conan install fontconfig/2.13.1@conan/stable
+    $ conan install fontconfig/2.13.1@zehome/stable
     
