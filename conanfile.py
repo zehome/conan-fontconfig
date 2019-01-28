@@ -2,7 +2,7 @@
 import os
 import shutil
 
-from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
+from conans import ConanFile, tools, AutoToolsBuildEnvironment
 from conans.errors import ConanInvalidConfiguration
 
 
@@ -17,17 +17,19 @@ class FontconfigConan(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=False"
+    default_options = {
+        'shared': False
+    }
     generators = "pkg_config"
 
     def requirements(self):
-        self.requires("freetype/2.9.0@bincrafters/stable")
-        self.requires("expat/2.2.5@bincrafters/stable")
+        self.requires("freetype/2.9.1@clarisys/stable")
+        self.requires("libxml2/2.9.9@bincrafters/stable")
         if self.settings.os == "Linux":
             self.requires("libuuid/1.0.3@bincrafters/stable")
 
     def build_requirements(self):
-        self.build_requires("gperf/3.1@conan/stable")
+        self.build_requires("gperf/3.1@clarisys/stable")
 
     def configure(self):
         if self.settings.os == "Windows":
@@ -53,15 +55,15 @@ class FontconfigConan(ConanFile):
     def build(self):
         # Patch files from dependencies
         self._patch_pc_files()
-
         autotools = AutoToolsBuildEnvironment(self)
         autotools.configure(
-            configure_dir="{name}-{version}".format(name=self.name, version=self.version))
+            configure_dir="{name}-{version}".format(name=self.name, version=self.version),
+            args=["--enable-libxml2", "--sysconfdir=/etc"])
         autotools.make()
 
     def package(self):
         with tools.chdir(self.build_folder):
-            self.run("make install")
+            self.run("make install", run_environment=True)
 
     def package_info(self):
         self.cpp_info.libs = ["fontconfig", ]
