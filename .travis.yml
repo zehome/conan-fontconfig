@@ -1,86 +1,127 @@
 env:
-   global:
-     - CONAN_USERNAME: "jgsogo"
-     - CONAN_LOGIN_USERNAME: "jgsogo"
-     - CONAN_CHANNEL: "testing"
-     - CONAN_UPLOAD: "https://api.bintray.com/conan/jgsogo/conan-packages"
-     - CONAN_STABLE_BRANCH_PATTERN: "release/*"
-     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches "release/*"
-     - CONAN_DOCKER_32_IMAGES: 1
-     - CONAN_REMOTES: https://api.bintray.com/conan/conan-community/conan@True@conan-community,https://api.bintray.com/conan/bincrafters/public-conan@True@bincrafters
-
-linux: &linux
-   os: linux
-   dist: xenial
-   language: python
-   python: "3.7"
-   services:
-     - docker
-osx: &osx
-   os: osx
-   language: generic
-
+  global:
+  - CONAN_USERNAME: zehome
+  - CONAN_LOGIN_USERNAME: zehome
+  - CONAN_CHANNEL: testing
+  - CONAN_UPLOAD: https://api.bintray.com/conan/zehome/conan-packages
+  - CONAN_STABLE_BRANCH_PATTERN: stable/*
+  - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+  - CONAN_DOCKER_32_IMAGES: 1
+  - CONAN_REMOTES: https://api.bintray.com/conan/conan-community/conan@True@conan-community,https://api.bintray.com/conan/bincrafters/public-conan@True@bincrafters
+  - secure: N6QxJNX+JeBIkrIQl6FNa+yVfPo5IbZmYYlb2WMkF1/8++coT3hRjeWBJEyMosuZUx89EBKfztAmASqJodCTQPZlgw/Z+SXa1hCx38ezmk+CiZaUfwsImGepc8bRu877VTkbOYSfwZP5S69o0kVam8DD7V7J42RTvqeovZAXYEc5EGTPide06IOfC1zV4zfPqtfGgacxaqlipgQ/fiZI/GzwgDobyPcwBET++xT3yN1ezfalKcBMPh/BYgtYXVSTVXEfLyY2EsDKUXuOgRycQAEmB4EALe+2xPlZGVsZUsYSafiTdhS9CVY+om2jGi35rBjCQqmPxqPKMX7pld1u+xOsmw4dk7jEwbNYC2/THI2DqWEFZewyRKWJX3ibZ0nQgstB6PtgW/vPvgpHQpvjptUw0nzMKY/FxiRkF3pntxDPiWqVDnua3Ul1jELgxsirTNjSSrgizSlBVnKn8ZH83CqhEj5kVgHE6XfN/TUJRHhlAzc/20YQyRvlfIeRk5S6MiwWb7ylgJFK9uDOPce4SAwpmn1Eycja73+16UHYfU2/uL5jeyuHM94XLaoUrs315njaU3S4Ms/6PJZkTwD4DrtiXBnBW99MWnl2HYQUc045TFW3ye0NH/G1lfqiP/t3lwddFV4qjnZTitcxUp541h8RqSMlPdaC++YdUgZZpZI=
+linux:
+  os: linux
+  dist: xenial
+  language: python
+  python: '3.7'
+  services: &1
+  - docker
+osx:
+  os: osx
+  language: generic
 stages:
-  - conan-linux
-  - conan-osx
-
+- conan-linux
+- conan-osx
 jobs:
-   include:
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
-      - <<: *linux
-        stage: conan-linux
-        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
-      - <<: *osx
-        stage: conan-osx
-        osx_image: xcode7.3
-        env: CONAN_APPLE_CLANG_VERSIONS=7.3
-      - <<: *osx
-        stage: conan-osx
-        osx_image: xcode8.3
-        env: CONAN_APPLE_CLANG_VERSIONS=8.1
-      - <<: *osx
-        stage: conan-osx
-        osx_image: xcode9
-        env: CONAN_APPLE_CLANG_VERSIONS=9.0
-      - <<: *osx
-        stage: conan-osx
-        osx_image: xcode9.4
-        env: CONAN_APPLE_CLANG_VERSIONS=9.1
-      - <<: *osx
-        stage: conan-osx
-        osx_image: xcode10
-        env: CONAN_APPLE_CLANG_VERSIONS=10.0
-
+  include:
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    stage: conan-linux
+    env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
+  - os: osx
+    language: generic
+    stage: conan-osx
+    osx_image: xcode7.3
+    env: CONAN_APPLE_CLANG_VERSIONS=7.3
+  - os: osx
+    language: generic
+    stage: conan-osx
+    osx_image: xcode8.3
+    env: CONAN_APPLE_CLANG_VERSIONS=8.1
+  - os: osx
+    language: generic
+    stage: conan-osx
+    osx_image: xcode9
+    env: CONAN_APPLE_CLANG_VERSIONS=9.0
+  - os: osx
+    language: generic
+    stage: conan-osx
+    osx_image: xcode9.4
+    env: CONAN_APPLE_CLANG_VERSIONS=9.1
+  - os: osx
+    language: generic
+    stage: conan-osx
+    osx_image: xcode10
+    env: CONAN_APPLE_CLANG_VERSIONS=10.0
 install:
-  - chmod +x .travis/install.sh
-  - ./.travis/install.sh
-
+- chmod +x .travis/install.sh
+- "./.travis/install.sh"
 script:
-  - chmod +x .travis/run.sh
-  - ./.travis/run.sh
+- chmod +x .travis/run.sh
+- "./.travis/run.sh"
